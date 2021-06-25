@@ -1,7 +1,6 @@
 <script>
   import { timeAgo } from "@guardian/libs";
   import { data } from './data.js';
-  export let name;
   let search;
 
   let results = data;
