@@ -112,17 +112,12 @@
   a:hover {
     text-decoration: underline;
   }
-
-  h4,
+  
   h5 {
     font-weight: 400;
     font-size: 1em;
     margin: 0;
     text-decoration: none;
-  }
-
-  h4 {
-    width: 6em;
   }
 
   @media (min-width: 640px) {
