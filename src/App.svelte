@@ -1,8 +1,10 @@
 <script>
   import { timeAgo } from "@guardian/libs";
   import { data } from './data.js';
-  let search;
+  import { text, news, sport, culture, brand, opinion, lifestyle } from "@guardian/src-foundations/palette"
+  import { body , headline } from "@guardian/src-foundations/typography"
 
+  let search;
   let results = data;
 
   const ENDPOINT = "https://content.guardianapis.com/search";
@@ -18,30 +20,46 @@
         results = response.response.results;
       });
   };
+
+  const simplifyPillar = (pillarId) => {
+    const [,cleanId] = pillarId.split('/');
+    return cleanId.replace(/(arts|books)/, 'culture');
+  }
+
+  const style = `
+    --primary: ${text.primary};
+    --anchorPrimary: ${text.anchorPrimary};
+    --news: ${news[400]};
+    --sport: ${sport[400]};
+    --culture: ${culture[400]};
+    --opinion: ${opinion[400]};
+    --lifestyle: ${lifestyle[400]};
+    `.replaceAll(/\s+/g,' ');
 </script>
 
-<main>
+<main style={body.medium() + style}>
   <h1>Guardian Search</h1>
 
   <form on:submit|preventDefault={fetchResults}>
     <input bind:value={search} type="text" placeholder="coronavirus" />
     <button type="submit" disabled={!search}>Search</button>
   </form>
-</main>
-
-<ul>
-  {#each results as result}
+  
+  <ul>
+    {#each results as result}
     <li>
       <a class="result" target="_blank" href={result.webUrl}>
-        <h3>
+        <h3 style={headline.xsmall()}>
+          <span style="color: var(--{simplifyPillar(result.pillarId)})">{result.sectionName} /</span>
           {result.webTitle}
         </h3>
-        <h4>{result.sectionName}</h4>
-		<h5>{timeAgo(new Date(result.webPublicationDate).getTime())}</h5>
+        <h5 style={body.small()} >{timeAgo(new Date(result.webPublicationDate).getTime())}</h5>
       </a>
     </li>
-  {/each}
-</ul>
+    {/each}
+  </ul>
+  
+</main>
 
 <style>
   main {
@@ -51,8 +69,13 @@
     margin: 0 auto;
   }
 
+  ul {
+    padding: 0;
+    list-style-type: none;
+  }
+
   h1 {
-    color: #052962;
+    color: var(--blue);
     text-transform: uppercase;
     font-size: 1.5em;
     font-weight: 100;
@@ -62,22 +85,29 @@
 	  display: flex;
 	  flex-wrap: wrap;
 	  margin-bottom: 1em;
-	  color: #333;
+	  color: var(--primary);
   }
 
   h3 {
+    line-height: 1.15;
 	  font-weight: 500;
-	  color: #052962;
 	  width: 100%;
-	  margin: 0.25em;
+	  margin: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 
   h4, h5 {
 	  font-weight: 400;
 	  font-size: 1em;
-	  margin: 0.25em;
+	  margin: 0;
 	  text-decoration: none;
-	  float: left
   }
 
   h4 {
