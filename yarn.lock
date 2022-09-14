@@ -28,10 +28,10 @@
   resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-8.0.3.tgz#f43956757e668c964214bacd01e622d435378e30"
   integrity sha512-kV24pJUoGqeQ0c7Pi1yAqdVzEcF4H0EaSJn2LQr/2sHGuZRa+KtcjY+4MVvRrSmpqp+qPEJgkHDW1M2TnGiqag==
 
-"@guardian/src-foundations@3.7.0":
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.7.0.tgz#f5f3a3c6d20c72d257447d1a8d97d1ffb613da0d"
-  integrity sha512-YLbr1D8VCoSg2nngMlMuq25zTcgngw01VZaqiyY4j9tC8IxFDliLbIf7mvQigKq9qn8RAlfM7HkMGzxSxVHtDg==
+"@guardian/src-foundations@3.13.0":
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/@guardian/src-foundations/-/src-foundations-3.13.0.tgz#4a40ac6e2bd62b8bf8ef634e9084fcc8c640d8c7"
+  integrity sha512-tibmZHHu7TjN3DSphUhlGSLCAJvLqr8XLDpgdlWB8YO1ohwYacOPpVdIGSi0N7E0XxjUOfB757XWXgs3yNd0LQ==
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
