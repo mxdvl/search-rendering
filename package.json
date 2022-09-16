@@ -18,7 +18,7 @@
     "svelte": "3.50.1"
   },
   "dependencies": {
-    "@guardian/libs": "8.0.3",
+    "@guardian/libs": "8.0.5",
     "@guardian/src-foundations": "3.13.0",
     "sirv-cli": "1.0.14"
   }

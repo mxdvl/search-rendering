@@ -23,10 +23,10 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@guardian/libs@8.0.3":
-  version "8.0.3"
-  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-8.0.3.tgz#f43956757e668c964214bacd01e622d435378e30"
-  integrity sha512-kV24pJUoGqeQ0c7Pi1yAqdVzEcF4H0EaSJn2LQr/2sHGuZRa+KtcjY+4MVvRrSmpqp+qPEJgkHDW1M2TnGiqag==
+"@guardian/libs@8.0.5":
+  version "8.0.5"
+  resolved "https://registry.yarnpkg.com/@guardian/libs/-/libs-8.0.5.tgz#b4c2a93f024322cda79a18bef5fbc0ee6f46922b"
+  integrity sha512-+1E2Okc9x306z+AjKOg52mlWm0Pzb3SCKmSdOqoVcnhXIm2SfF+ivAdnc3vPwZP6ltXDov4gYyNFxYCwbCESSA==
 
 "@guardian/src-foundations@3.13.0":
   version "3.13.0"
