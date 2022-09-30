@@ -1,10 +1,16 @@
 import { Handler, serve } from "https://deno.land/std@0.158.0/http/server.ts";
 import { parseHTML } from "https://esm.sh/linkedom@0.14.16";
 
-import { zod } from "./src/deps.ts";
+import { libs, zod } from "./src/deps.ts";
+import { fontBase, fonts } from "./src/fonts.ts";
 import { fetchJSON } from "./src/json.ts";
 import { isPillarId, Pillar, pillars, pillarStyles } from "./src/pillars.ts";
 import { build } from "./src/styles.ts";
+
+const fields = zod.object({
+  thumbnail: zod.string().optional(),
+  trailText: zod.string().optional(),
+});
 
 type Result = zod.output<typeof result>;
 const result = zod.object({
@@ -12,7 +18,9 @@ const result = zod.object({
   webPublicationDate: zod.string(),
   webTitle: zod.string(),
   webUrl: zod.string(),
+  fields,
 });
+
 const schema = zod.object({
   response: zod.object({
     status: zod.literal("ok"),
@@ -26,12 +34,15 @@ const getResults = async (q: string | null): Promise<Result[]> => {
   const params = new URLSearchParams({
     q,
     "api-key": "test",
+    "show-fields": ["thumbnail", "trailText"].join(","),
   });
 
   const url = new URL(
     `search?${params.toString()}`,
     "https://content.guardianapis.com/"
   );
+
+  console.log(url.toString());
 
   const {
     response: { results },
@@ -62,25 +73,47 @@ const handler: Handler = async ({ url }) => {
   const resultPillars = new Set<Pillar>();
 
   const ul = document.querySelector("ul");
-  for (const { webUrl, webTitle, webPublicationDate, pillarId } of results) {
+  for (const {
+    webUrl,
+    webTitle,
+    webPublicationDate,
+    pillarId,
+    fields: { trailText, thumbnail },
+  } of results) {
     const li = document.createElement("li");
+    li.classList.add("result");
     if (isPillarId(pillarId)) {
-        const pillar = pillars[pillarId];
-        resultPillars.add(pillar);
-        li.classList.add(pillar)
+      const pillar = pillars[pillarId];
+      resultPillars.add(pillar);
+      li.classList.add(pillar);
     }
 
+    const date = libs.timeAgo(new Date(webPublicationDate).getTime());
+
     li.innerHTML = `
-    <a href="${webUrl}">${webTitle}</a> ${new Date(webPublicationDate)
-      .toISOString()
-      .slice(0, 10)}
-    `;
+<a href="${webUrl}">
+    ${thumbnail && `<img src="${thumbnail}" role="presentation" />`}
+    <h2>${webTitle}</h2>
+    ${trailText}
+    <footer>${date}</footer>
+</a>`;
+
     ul?.appendChild(li);
   }
 
   const styles = document.createElement("style");
   styles.innerText = build([...resultPillars].map(pillarStyles));
   document.head.appendChild(styles);
+
+  for (const { file } of fonts) {
+    const link = document.createElement("link");
+    link.setAttribute("rel", "preload");
+    link.setAttribute("as", "font");
+    link.setAttribute("crossorigin", "");
+    link.setAttribute("href", `${fontBase}/${file}.woff2`);
+
+    document.head.appendChild(link);
+  }
 
   const duration = Math.ceil(performance.now() - startTime);
 
