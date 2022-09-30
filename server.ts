@@ -1,7 +1,10 @@
 import { Handler, serve } from "https://deno.land/std@0.158.0/http/server.ts";
 import { parseHTML } from "https://esm.sh/linkedom@0.14.16";
+
 import { zod } from "./src/deps.ts";
 import { fetchJSON } from "./src/json.ts";
+import { isPillarId, Pillar, pillars, pillarStyles } from "./src/pillars.ts";
+import { build } from "./src/styles.ts";
 
 type Result = zod.output<typeof result>;
 const result = zod.object({
@@ -53,20 +56,20 @@ const handler: Handler = async ({ url }) => {
   const search = searchParams.get("search");
   const results = await getResults(search);
 
-  const duration = Math.ceil(performance.now() - startTime);
-
-  console.info({
-    search,
-    results: results.length,
-    duration,
-  });
-
   const input = document.querySelector<HTMLInputElement>("input[name=search]");
   input?.setAttribute("value", search ?? "");
 
+  const resultPillars = new Set<Pillar>();
+
   const ul = document.querySelector("ul");
-  for (const { webUrl, webTitle, webPublicationDate } of results) {
+  for (const { webUrl, webTitle, webPublicationDate, pillarId } of results) {
     const li = document.createElement("li");
+    if (isPillarId(pillarId)) {
+        const pillar = pillars[pillarId];
+        resultPillars.add(pillar);
+        li.classList.add(pillar)
+    }
+
     li.innerHTML = `
     <a href="${webUrl}">${webTitle}</a> ${new Date(webPublicationDate)
       .toISOString()
@@ -74,6 +77,18 @@ const handler: Handler = async ({ url }) => {
     `;
     ul?.appendChild(li);
   }
+
+  const styles = document.createElement("style");
+  styles.innerText = build([...resultPillars].map(pillarStyles));
+  document.head.appendChild(styles);
+
+  const duration = Math.ceil(performance.now() - startTime);
+
+  console.info({
+    search,
+    results: results.length,
+    duration,
+  });
 
   return new Response(document.toString(), {
     status: 200,

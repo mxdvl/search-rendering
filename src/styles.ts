@@ -1,26 +1,24 @@
-import { body } from "./deps.ts";
+import { source } from "./deps.ts";
 import { transform } from "./css.ts";
 
 const version = (major: number, minor = 0, patch = 0) =>
   (major << 16) | (minor << 8) | (patch << 4);
 
-const styles = `
-${["news", "sports", "culture"]}
-
+const _styles = `
 body {
-    font-family: ${body.medium()};
+    font-family: ${source.body.medium()};
 }
 `;
 
-export const build = () => {
+export const build = (extras: string[]) => {
   const start = performance.now();
 
   const { code } = transform({
     filename: "styles.css",
-    code: new TextEncoder().encode(styles),
+    code: new TextEncoder().encode([...extras].join("\n\n")),
     minify: false,
     targets: {
-      chrome: version(91),
+      chrome: version(88),
     },
   });
 
