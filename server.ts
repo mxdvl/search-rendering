@@ -126,6 +126,10 @@ const handler: Handler = async ({ url }) => {
     duration,
   });
 
+  document
+    .querySelector("#duration")
+    ?.prepend(document.createTextNode(String(duration)));
+
   return new Response(document.toString(), {
     status: 200,
     headers: {
