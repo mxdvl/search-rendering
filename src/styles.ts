@@ -19,7 +19,7 @@ body {
   ${source.body.medium()}
 }
 
-${Array.from({ length: 6 }, (_, i) => i * gap + (i + 1) * columnWidth)
+${Array.from({ length: 8 }, (_, i) => i * gap + (i + 1) * columnWidth)
   .map(
     (width, columns) =>
       `@media screen and (min-width: ${width}px) { body { --columns: ${columns}; } }`
@@ -41,35 +41,50 @@ h1 {
   gap: ${gap}px;
 }
 
-.result {
-  position: relative;
-  color: var(--text, black);
-  background-color: var(--background, #eee);
-}
-
 .result a {
-  display: block;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
-  color: inherit;
+  
+  color: var(--text, ${source.neutral[10]});
+  background-color: var(--background, ${source.neutral[97]});
+
+  padding: 0.25rem;
+  gap: 0.25rem;
+  box-sizing: border-box;
+  height: 100%;
 }
 
-.result :is(h2, h3, h4) {
+.result :is(h2, h3, h4, p) {
   margin: 0;
+  padding: 0
+}
+
+.result .date {
+  text-align: right;
+  ${source.textSans.xsmall()};
 }
 
 .result h2 {
+  color: var(--headline);
   ${source.headline.xsmall()};
 }
 
+.result .spacer {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
 .result img {
+  margin: -0.25rem;
+  margin-bottom: 0;
   display: block;
   aspect-ratio: 5 / 3;
-  width: 100%;
 }
 
 .result:hover {
-  --text: #333;
-  --background: #ccc;
+  --background: ${source.neutral[86]};
 }
 
 ${fontFaces.join("\n")}

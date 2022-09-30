@@ -14,7 +14,7 @@ const fields = zod.object({
 
 type Result = zod.output<typeof result>;
 const result = zod.object({
-  pillarId: zod.string(),
+  pillarId: zod.string().optional(),
   webPublicationDate: zod.string(),
   webTitle: zod.string(),
   webUrl: zod.string(),
@@ -33,8 +33,10 @@ const getResults = async (q: string | null): Promise<Result[]> => {
 
   const params = new URLSearchParams({
     q,
-    "api-key": "test",
+    orderBy: "newest", // not "relevance"
+    "page-size": String(24),
     "show-fields": ["thumbnail", "trailText"].join(","),
+    "api-key": "test",
   });
 
   const url = new URL(
@@ -94,8 +96,9 @@ const handler: Handler = async ({ url }) => {
 <a href="${webUrl}">
     ${thumbnail && `<img src="${thumbnail}" role="presentation" />`}
     <h2>${webTitle}</h2>
-    ${trailText}
-    <footer>${date}</footer>
+    ${trailText && `<p>${trailText}</p>`}
+    <span class="spacer"></span>
+    <p class="date">${date}</p>
 </a>`;
 
     ul?.appendChild(li);
