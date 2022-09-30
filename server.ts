@@ -1,5 +1,6 @@
 import { Handler, serve } from "https://deno.land/std@0.158.0/http/server.ts";
 import { parseHTML } from "https://esm.sh/linkedom@0.14.16";
+import { string } from "https://esm.sh/v90/zod@3.17.10/index.d.ts";
 
 import { libs, zod } from "./src/deps.ts";
 import { fontBase, fonts } from "./src/fonts.ts";
@@ -28,8 +29,13 @@ const schema = zod.object({
   }),
 });
 
+const cache = new Map<string, Result[]>();
+
 const getResults = async (q: string | null): Promise<Result[]> => {
   if (!q) return [];
+
+  const cached = cache.get(q);
+  if (cached) return cached;
 
   const params = new URLSearchParams({
     q,
@@ -49,6 +55,10 @@ const getResults = async (q: string | null): Promise<Result[]> => {
   const {
     response: { results },
   } = await fetchJSON(url, { parser: schema.parse });
+
+  cache.set(q, results);
+
+  setTimeout(() => cache.delete(q), 12_000);
 
   return results;
 };
