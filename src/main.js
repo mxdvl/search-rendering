@@ -1,5 +1,4 @@
-import { timeAgo } from "npm:@guardian/libs";
-import { data } from "./data.js";
+import { timeAgo } from "https://esm.sh/@guardian/libs@8.0.5";
 import {
   text,
   news,
@@ -7,8 +6,9 @@ import {
   culture,
   opinion,
   lifestyle,
-} from "npm:@guardian/source-foundations";
-import { body, headline } from "npm:@guardian/source-foundations";
+  body,
+  headline,
+} from "https://esm.sh/@guardian/source-foundations@5.3.0";
 
 let search;
 let results = data;
