@@ -1,26 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
 
-	<title>Svelte app</title>
+	<title>Guardian Search</title>
 
 	<link rel='icon' type='image/png' href='/favicon.png'>
 	<link rel='stylesheet' href='/global.css'>
 	<link rel='stylesheet' href='/build/bundle.css'>
 
-	<link rel="preload" href="https://assets.guim.co.uk/static/frontend/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-Medium.woff2" as="font" crossorigin>
-	<link rel="preload" href="https://assets.guim.co.uk/static/frontend/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-MediumItalic.woff2" as="font" crossorigin>
-	<link rel="preload" href="https://assets.guim.co.uk/static/frontend/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-Bold.woff2" as="font" crossorigin>
-	<link rel="preload" href="https://assets.guim.co.uk/static/frontend/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-Regular.woff2" as="font" crossorigin>
-	<link rel="preload" href="https://assets.guim.co.uk/static/frontend/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-Bold.woff2" as="font" crossorigin>
-	<link rel="preload" href="https://assets.guim.co.uk/static/frontend/fonts/guardian-textsans/noalts-not-hinted/GuardianTextSans-Regular.woff2" as="font" crossorigin>
-	<link rel="preload" href="https://assets.guim.co.uk/static/frontend/fonts/guardian-textsans/noalts-not-hinted/GuardianTextSans-Bold.woff2" as="font" crossorigin>
+	<link rel="preload"
+		href="https://assets.guim.co.uk/static/frontend/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-Medium.woff2"
+		as="font" crossorigin>
+	<link rel="preload"
+		href="https://assets.guim.co.uk/static/frontend/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-MediumItalic.woff2"
+		as="font" crossorigin>
+	<link rel="preload"
+		href="https://assets.guim.co.uk/static/frontend/fonts/guardian-headline/noalts-not-hinted/GHGuardianHeadline-Bold.woff2"
+		as="font" crossorigin>
+	<link rel="preload"
+		href="https://assets.guim.co.uk/static/frontend/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-Regular.woff2"
+		as="font" crossorigin>
+	<link rel="preload"
+		href="https://assets.guim.co.uk/static/frontend/fonts/guardian-textegyptian/noalts-not-hinted/GuardianTextEgyptian-Bold.woff2"
+		as="font" crossorigin>
+	<link rel="preload"
+		href="https://assets.guim.co.uk/static/frontend/fonts/guardian-textsans/noalts-not-hinted/GuardianTextSans-Regular.woff2"
+		as="font" crossorigin>
+	<link rel="preload"
+		href="https://assets.guim.co.uk/static/frontend/fonts/guardian-textsans/noalts-not-hinted/GuardianTextSans-Bold.woff2"
+		as="font" crossorigin>
 
 	<script defer src='/build/bundle.js'></script>
 </head>
 
 <body>
+
+	<main>
+		<h1>Guardian Search</h1>
+
+		<form>
+			<input name="search" type="text" placeholder="search for…" />
+			<button type="submit">Search</button>
+		</form>
+
+	</main>
+
+	<style>
+		main {
+			text-align: left;
+			padding: 1em;
+			max-width: 240px;
+			margin: 0 auto;
+		}
+
+		ul {
+			padding: 0;
+			list-style-type: none;
+		}
+
+		h1 {
+			color: var(--blue);
+			text-transform: uppercase;
+			font-size: 1.5em;
+			font-weight: 100;
+		}
+
+		.result {
+			display: flex;
+			flex-wrap: wrap;
+			margin-bottom: 1em;
+			color: var(--primary);
+		}
+
+		h3 {
+			line-height: 1.15;
+			font-weight: 500;
+			width: 100%;
+			margin: 0;
+		}
+
+		a {
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: underline;
+		}
+
+		h5 {
+			font-weight: 400;
+			font-size: 1em;
+			margin: 0;
+			text-decoration: none;
+		}
+
+		@media (min-width: 640px) {
+			main {
+				max-width: none;
+			}
+		}
+	</style>
 </body>
+
 </html>
