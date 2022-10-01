@@ -19,7 +19,7 @@ body {
   ${source.body.medium()}
 }
 
-${Array.from({ length: 8 }, (_, i) => i * gap + (i + 1) * columnWidth)
+${Array.from({ length: 8 }, (_, i) => i - 1 * gap + i * columnWidth)
   .map(
     (width, columns) =>
       `@media screen and (min-width: ${width}px) { body { --columns: ${columns}; } }`
