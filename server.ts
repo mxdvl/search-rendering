@@ -1,6 +1,5 @@
 import { Handler, serve } from "https://deno.land/std@0.158.0/http/server.ts";
 import { parseHTML } from "https://esm.sh/linkedom@0.14.16";
-import { string } from "https://esm.sh/v90/zod@3.17.10/index.d.ts";
 
 import { libs, zod } from "./src/deps.ts";
 import { fontBase, fonts } from "./src/fonts.ts";
