@@ -1,140 +1,91 @@
-export const fonts = [
-  // GH Guardian Headline, with legacy family name of Guardian Egyptian Web
-  {
-    family: "GH Guardian Headline",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-Light",
-    weight: 300,
-    style: "normal",
-  },
-  {
-    family: "Guardian Egyptian Web",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-Light",
-    weight: 300,
-    style: "normal",
-  },
-  {
-    family: "GH Guardian Headline",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-LightItalic",
-    weight: 300,
-    style: "italic",
-  },
-  {
-    family: "Guardian Egyptian Web",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-LightItalic",
-    weight: 300,
-    style: "italic",
-  },
-  {
-    family: "GH Guardian Headline",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-Medium",
-    weight: 500,
-    style: "normal",
-  },
-  {
-    family: "Guardian Egyptian Web",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-Medium",
-    weight: 500,
-    style: "normal",
-  },
-  {
-    family: "GH Guardian Headline",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-MediumItalic",
-    weight: 500,
-    style: "italic",
-  },
-  {
-    family: "Guardian Egyptian Web",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-MediumItalic",
-    weight: 500,
-    style: "italic",
-  },
-  {
-    family: "GH Guardian Headline",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-Bold",
-    weight: 700,
-    style: "normal",
-  },
-  {
-    family: "Guardian Egyptian Web",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-Bold",
-    weight: 700,
-    style: "normal",
-  },
-  {
-    family: "GH Guardian Headline",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-BoldItalic",
-    weight: 700,
-    style: "italic",
-  },
-  {
-    family: "Guardian Egyptian Web",
-    file: "guardian-headline/noalts-autohinted/GHGuardianHeadline-BoldItalic",
-    weight: 700,
-    style: "italic",
-  },
-  {
-    family: "GuardianTextEgyptian",
-    file: "guardian-textegyptian/noalts-autohinted/GuardianTextEgyptian-Regular",
-    weight: 400,
-    style: "normal",
-  },
+const weightMap = {
+  Light: 300,
+  Regular: 400,
+  Medium: 500,
+  Bold: 700,
+} as const;
 
+type Family = {
+  name:
+    | "GH Guardian Headline"
+    | "GuardianTextEgyptian"
+    | "GuardianTextSans"
+    | "GT Guardian Titlepiece";
+  weights: Array<keyof typeof weightMap>;
+  italics: boolean;
+};
+export const families: Family[] = [
   {
-    family: "GuardianTextEgyptian",
-    file: "guardian-textegyptian/noalts-autohinted/GuardianTextEgyptian-RegularItalic",
-    weight: 400,
-    style: "italic",
+    name: "GH Guardian Headline",
+    weights: ["Light", "Medium", "Bold"],
+    italics: true,
   },
+  {
+    name: "GuardianTextEgyptian",
+    weights: ["Regular", "Bold"],
+    italics: true,
+  },
+  {
+    name: "GuardianTextSans",
+    weights: ["Regular", "Bold"],
+    italics: true,
+  },
+  {
+    name: "GT Guardian Titlepiece",
+    weights: ["Bold"],
+    italics: false,
+  },
+];
 
-  {
-    family: "GuardianTextEgyptian",
-    file: "guardian-textegyptian/noalts-autohinted/GuardianTextEgyptian-Bold",
-    weight: 700,
-    style: "normal",
-  },
+type Font = {
+  family: Family["name"];
+  file: string;
+  weight: typeof weightMap[keyof typeof weightMap];
+  style: "normal" | "italic";
+};
 
-  {
-    family: "GuardianTextEgyptian",
-    file: "guardian-textegyptian/noalts-autohinted/GuardianTextEgyptian-BoldItalic",
-    weight: 700,
-    style: "italic",
-  },
+export const fonts: Font[] = families.flatMap(({ name, weights, italics }) => {
+  return weights.flatMap((weight) => {
+    const folder = (family: Family["name"]) => {
+      switch (family) {
+        case "GH Guardian Headline":
+          return "guardian-headline";
+        case "GT Guardian Titlepiece":
+          return "guardian-titlepiece";
+        case "GuardianTextEgyptian":
+          return "guardian-textegyptian";
+        case "GuardianTextSans":
+          return "guardian-textsans";
+      }
+    };
 
-  {
-    family: "GuardianTextSans",
-    file: "guardian-textsans/noalts-autohinted/GuardianTextSans-Regular",
-    weight: 400,
-    style: "normal",
-  },
+    const fonts: Font[] = [
+      {
+        family: name,
+        weight: weightMap[weight],
+        file: `${folder(name)}/noalts-not-hinted/${name.replaceAll(
+          /\W/g,
+          ""
+        )}-${weight}`,
+        style: "normal",
+      },
+    ];
 
-  {
-    family: "GuardianTextSans",
-    file: "guardian-textsans/noalts-autohinted/GuardianTextSans-RegularItalic",
-    weight: 400,
-    style: "italic",
-  },
+    if (italics) {
+      fonts.push({
+        family: name,
+        weight: weightMap[weight],
+        file: `${folder(name)}/noalts-not-hinted/${name.replaceAll(
+          /\W/g,
+          ""
+        )}-${weight}Italic`,
+        style: "italic",
+      });
+    }
 
-  {
-    family: "GuardianTextSans",
-    file: "guardian-textsans/noalts-autohinted/GuardianTextSans-Bold",
-    weight: 700,
-    style: "normal",
-  },
-
-  {
-    family: "GuardianTextSans",
-    file: "guardian-textsans/noalts-autohinted/GuardianTextSans-BoldItalic",
-    weight: 700,
-    style: "italic",
-  },
-
-  {
-    family: "GT Guardian Titlepiece",
-    file: "guardian-titlepiece/noalts-autohinted/GTGuardianTitlepiece-Bold",
-    weight: 700,
-    style: "normal",
-  },
-] as const;
+    return fonts;
+  });
+});
 
 export const fontBase = "https://assets.guim.co.uk/static/frontend/fonts";
 
