@@ -103,7 +103,7 @@ const handler: Handler = async ({ url }) => {
 
     li.innerHTML = `
 <a href="${webUrl}">
-    ${thumbnail ? `<img src="${thumbnail}" role="presentation" />` : ""}
+    ${thumbnail ? `<img src="${thumbnail}" role="presentation" width="300" height="180" />` : ""}
     <h2>${webTitle}</h2>
     ${trailText && `<p>${trailText}</p>`}
     <span class="spacer"></span>
