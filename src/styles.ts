@@ -80,7 +80,6 @@ h1 {
   margin: -0.25rem;
   margin-bottom: 0;
   display: block;
-  aspect-ratio: 5 / 3;
 }
 
 .result:hover {

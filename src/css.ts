@@ -2,10 +2,10 @@ import init, {
   transform as untypedTransform,
 } from "https://unpkg.com/lightningcss-wasm@1.14.0/index.js";
 
-import {
+import type {
   TransformOptions,
   TransformResult,
-} from "https://raw.githubusercontent.com/parcel-bundler/lightningcss/v1.14.0/node/index.d.ts";
+} from "https://esm.sh/lightningcss-wasm@1.14.0/index.js";
 
 /**
  * Why are we declaring this here?
