@@ -6,7 +6,7 @@ export const fetchJSON = async <T>(
   }: {
     headers?: HeadersInit;
     parser: (data: unknown) => T | Promise<T>;
-  }
+  },
 ): Promise<T> => {
   const data: unknown = await fetch(url, { headers }).then((r) => r.json());
   return parser(data);
