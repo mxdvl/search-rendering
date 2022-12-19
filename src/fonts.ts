@@ -63,10 +63,12 @@ export const fonts: Font[] = families.flatMap(({ name, weights, italics }) => {
       {
         family: name,
         weight: weightMap[weight],
-        file: `${folder(name)}/noalts-not-hinted/${name.replaceAll(
-          /\W/g,
-          ""
-        )}-${weight}`,
+        file: `${folder(name)}/noalts-not-hinted/${
+          name.replaceAll(
+            /\W/g,
+            "",
+          )
+        }-${weight}`,
         style: "normal",
       },
     ];
@@ -75,10 +77,12 @@ export const fonts: Font[] = families.flatMap(({ name, weights, italics }) => {
       fonts.push({
         family: name,
         weight: weightMap[weight],
-        file: `${folder(name)}/noalts-not-hinted/${name.replaceAll(
-          /\W/g,
-          ""
-        )}-${weight}Italic`,
+        file: `${folder(name)}/noalts-not-hinted/${
+          name.replaceAll(
+            /\W/g,
+            "",
+          )
+        }-${weight}Italic`,
         style: "italic",
       });
     }
@@ -93,12 +97,14 @@ export const fontFaces = fonts.map(
   ({ family, file, weight, style }) => `
 @font-face {
     font-family: "${family}";
-    src: ${["woff2", "woff", "ttf"]
+    src: ${
+    ["woff2", "woff", "ttf"]
       .map((ext) => `url(${fontBase}/${file}.${ext}) format("${ext}")`)
-      .join(",")};
+      .join(",")
+  };
     font-weight: ${weight};
     font-style: ${style};
     font-display: swap;
 }
-`
+`,
 );

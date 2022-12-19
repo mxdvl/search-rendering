@@ -1,4 +1,4 @@
-import { Handler, serve } from "https://deno.land/std@0.158.0/http/server.ts";
+import { Handler, serve } from "https://deno.land/std@0.167.0/http/server.ts";
 import { parseHTML } from "https://esm.sh/linkedom@0.14.16";
 
 import { libs, zod } from "./src/deps.ts";
@@ -10,6 +10,7 @@ import { build } from "./src/styles.ts";
 const fields = zod.object({
   thumbnail: zod.string().optional(),
   trailText: zod.string().optional(),
+  byline: zod.string().optional(),
 });
 
 type Result = zod.output<typeof result>;
@@ -40,13 +41,13 @@ const getResults = async (q: string | null): Promise<Result[]> => {
     q,
     orderBy: "newest", // not "relevance"
     "page-size": String(24),
-    "show-fields": ["thumbnail", "trailText"].join(","),
+    "show-fields": ["thumbnail", "trailText", "byline"].join(","),
     "api-key": "test",
   });
 
   const url = new URL(
     `search?${params.toString()}`,
-    "https://content.guardianapis.com/"
+    "https://content.guardianapis.com/",
   );
 
   console.log(url.toString());
@@ -84,13 +85,15 @@ const handler: Handler = async ({ url }) => {
   const resultPillars = new Set<Pillar>();
 
   const ul = document.querySelector("ul");
-  for (const {
-    webUrl,
-    webTitle,
-    webPublicationDate,
-    pillarId,
-    fields: { trailText, thumbnail },
-  } of results) {
+  for (
+    const {
+      webUrl,
+      webTitle,
+      webPublicationDate,
+      pillarId,
+      fields: { trailText, thumbnail, byline },
+    } of results
+  ) {
     const li = document.createElement("li");
     li.classList.add("result");
     if (isPillarId(pillarId)) {
@@ -103,8 +106,13 @@ const handler: Handler = async ({ url }) => {
 
     li.innerHTML = `
 <a href="${webUrl}">
-    ${thumbnail ? `<img src="${thumbnail}" role="presentation" width="300" height="180" />` : ""}
+    ${
+      thumbnail
+        ? `<img src="${thumbnail}" role="presentation" width="300" height="180" />`
+        : ""
+    }
     <h2>${webTitle}</h2>
+    <h3>${byline}</h3>
     ${trailText && `<p>${trailText}</p>`}
     <span class="spacer"></span>
     <p class="date">${date}</p>
