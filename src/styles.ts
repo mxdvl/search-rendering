@@ -19,12 +19,14 @@ body {
   ${source.body.medium()}
 }
 
-${Array.from({ length: 8 }, (_, i) => i - 1 * gap + i * columnWidth)
-  .map(
-    (width, columns) =>
-      `@media screen and (min-width: ${width}px) { body { --columns: ${columns}; } }`
-  )
-  .join("\n")}
+${
+  Array.from({ length: 8 }, (_, i) => i - 1 * gap + i * columnWidth)
+    .map(
+      (width, columns) =>
+        `@media screen and (min-width: ${width}px) { body { --columns: ${columns}; } }`,
+    )
+    .join("\n")
+}
 
 h1 {
   ${source.titlepiece.small()};
@@ -69,6 +71,10 @@ h1 {
 .result h2 {
   color: var(--headline);
   ${source.headline.xsmall()};
+}
+
+.result h3 {
+  ${source.headline.xxsmall({ fontWeight: "light", fontStyle: "italic" })};
 }
 
 .result .spacer {
